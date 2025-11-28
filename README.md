@@ -1,2 +1,2 @@
-# Golang_Authentication-System
+# Golang Authentication System
 authentication system sederhana dengan menggunakan bahasa pemrograman golang
