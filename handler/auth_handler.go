@@ -10,6 +10,11 @@ import (
 	"github.com/bayuf/Golang_Authentication-System/utils"
 )
 
+const (
+	Green = "\033[32m"
+	Reset = "\033[0m"
+)
+
 type AuthHandler struct {
 	Service *service.AuthService
 }
@@ -46,7 +51,7 @@ func (h *AuthHandler) Login() error {
 	if err != nil {
 		return err
 	} else {
-		fmt.Println("Login Berhasil, Selamat datang", user.Name)
+		fmt.Println(Green, "Login Berhasil, Selamat datang", user.Name, Reset)
 	}
 
 	return nil
@@ -98,7 +103,7 @@ func (h *AuthHandler) Register() error {
 	if err := h.Service.RegisterUser(req); err != nil {
 		fmt.Println("error:", err)
 	} else {
-		fmt.Println("Registrasi Berhasil, data tersimpan di users.json")
+		fmt.Println(Green, "Registrasi Berhasil, data tersimpan di users.json", Reset)
 	}
 
 	return nil

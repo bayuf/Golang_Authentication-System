@@ -8,6 +8,11 @@ import (
 	"github.com/bayuf/Golang_Authentication-System/service"
 )
 
+const (
+	Red   = "\033[31m"
+	Reset = "\033[0m"
+)
+
 func main() {
 	// init
 	repo := repository.NewUserRepository("data/users.json")
@@ -26,13 +31,14 @@ func main() {
 		switch num {
 		case 1:
 			if err := handl.Login(); err != nil {
-				fmt.Println(err)
+				fmt.Println(Red, err, Reset)
 			}
 		case 2:
 			if err := handl.Register(); err != nil {
-				fmt.Println(err)
+				fmt.Println(Red, err, Reset)
 			}
 		case 3:
+			fmt.Println("Terima Kasih. Bye .....")
 			return
 		default:
 			fmt.Println("masukkan angka 1-3")
