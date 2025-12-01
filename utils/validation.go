@@ -10,7 +10,7 @@ import (
 )
 
 func UserNameValid(username string) (string, error) {
-	re := regexp.MustCompile("^[A-Za-z]+$")
+	re := regexp.MustCompile(`^[A-Za-z ]+$`)
 
 	username = strings.TrimSpace(username)
 	if len(username) < 6 {

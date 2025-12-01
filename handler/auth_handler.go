@@ -46,7 +46,7 @@ func (h *AuthHandler) Login() error {
 	if err != nil {
 		return err
 	} else {
-		fmt.Println("Selamat datang, ", user.Name)
+		fmt.Println("Login Berhasil, Selamat datang", user.Name)
 	}
 
 	return nil
@@ -62,10 +62,10 @@ func (h *AuthHandler) Register() error {
 	fmt.Print("Full Name\t: ")
 	name, _ := reader.ReadString('\n')
 
-	fmt.Print("Email\t: ")
+	fmt.Print("Email\t\t: ")
 	email, _ := reader.ReadString('\n')
 
-	fmt.Print("Phone\t: ")
+	fmt.Print("Phone\t\t: ")
 	phone, _ := reader.ReadString('\n')
 
 	fmt.Print("Password\t: ")
@@ -97,6 +97,8 @@ func (h *AuthHandler) Register() error {
 
 	if err := h.Service.RegisterUser(req); err != nil {
 		fmt.Println("error:", err)
+	} else {
+		fmt.Println("Registrasi Berhasil, data tersimpan di users.json")
 	}
 
 	return nil
