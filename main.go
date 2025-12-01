@@ -29,7 +29,9 @@ func main() {
 				fmt.Println(err)
 			}
 		case 2:
-			handl.Register()
+			if err := handl.Register(); err != nil {
+				fmt.Println(err)
+			}
 		case 3:
 			return
 		default:
