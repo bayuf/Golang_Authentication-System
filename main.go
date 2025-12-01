@@ -25,7 +25,9 @@ func main() {
 
 		switch num {
 		case 1:
-			handl.Login()
+			if err := handl.Login(); err != nil {
+				fmt.Println(err)
+			}
 		case 2:
 			handl.Register()
 		case 3:

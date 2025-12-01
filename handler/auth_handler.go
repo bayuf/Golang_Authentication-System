@@ -4,10 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/bayuf/Golang_Authentication-System/dto"
 	"github.com/bayuf/Golang_Authentication-System/service"
+	"github.com/bayuf/Golang_Authentication-System/utils"
 )
 
 type AuthHandler struct {
@@ -18,7 +18,7 @@ func NewAuthHandler(svc *service.AuthService) *AuthHandler {
 	return &AuthHandler{Service: svc}
 }
 
-func (h *AuthHandler) Login() {
+func (h *AuthHandler) Login() error {
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Println("--- LOGIN ---")
 	reader.ReadString('\n')
@@ -28,20 +28,32 @@ func (h *AuthHandler) Login() {
 
 	fmt.Print("Password\t: ")
 	password, _ := reader.ReadString('\n')
-	user, err := h.Service.UserLogin(dto.LoginDTO{
-		Email:    strings.TrimSpace(email),
-		Password: strings.TrimSpace(password),
-	})
 
+	validEmail, err := utils.EmailValid(email)
 	if err != nil {
-		fmt.Println(err)
+		return err
+	}
+
+	validPassword, err := utils.PasswordValid(password)
+	if err != nil {
+		return err
+	}
+
+	user, err := h.Service.UserLogin(dto.LoginDTO{
+		Email:    validEmail,
+		Password: validPassword,
+	})
+	if err != nil {
+		return err
 	} else {
 		fmt.Println("Selamat datang, ", user.Name)
 	}
 
+	return nil
+
 }
 
-func (h *AuthHandler) Register() {
+func (h *AuthHandler) Register() error {
 	reader := bufio.NewReader(os.Stdin)
 
 	fmt.Println("--- REGISTER ---")
@@ -59,14 +71,33 @@ func (h *AuthHandler) Register() {
 	fmt.Print("Password\t: ")
 	password, _ := reader.ReadString('\n')
 
+	validName, err := utils.UserNameValid(name)
+	if err != nil {
+		return err
+	}
+	validEmail, err := utils.EmailValid(email)
+	if err != nil {
+		return err
+	}
+	validPhone, err := utils.PhoneNumberValid(phone)
+	if err != nil {
+		return err
+	}
+	validPassword, err := utils.PasswordValid(password)
+	if err != nil {
+		return err
+	}
+
 	req := dto.RegisterDTO{
-		Name:     strings.TrimSpace(name),
-		Email:    strings.TrimSpace(email),
-		Phone:    strings.TrimSpace(phone),
-		Password: strings.TrimSpace(password),
+		Name:     validName,
+		Email:    validEmail,
+		Phone:    validPhone,
+		Password: validPassword,
 	}
 
 	if err := h.Service.RegisterUser(req); err != nil {
 		fmt.Println("error:", err)
 	}
+
+	return nil
 }
